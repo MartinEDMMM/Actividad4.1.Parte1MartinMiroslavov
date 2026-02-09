@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, SafeAreaView, Image } from 'react-native';
 import { TEAMS } from '../data/teams';
 
 const SelectionScreen = ({ navigation }) => {
@@ -27,6 +27,12 @@ const SelectionScreen = ({ navigation }) => {
           <Text style={styles.playerLabel}>PLAYER 1</Text>
 
           <View style={[styles.logoBox, { borderColor: localTeam.color }]}>
+            {/* LOGOTIPO LOCAL */}
+            <Image 
+              source={localTeam.logo} 
+              style={styles.imageLogo} 
+              resizeMode="contain" 
+            />
             <Text style={[styles.teamName, { color: localTeam.color }]}>
               {localTeam.city.toUpperCase()}
             </Text>
@@ -36,7 +42,8 @@ const SelectionScreen = ({ navigation }) => {
           <FlatList
             data={localTeam.players}
             renderItem={renderPlayer}
-            keyExtractor={(item) => item}
+            keyExtractor={(item) => `local-${item}`}
+            style={styles.playerList}
           />
 
           <TouchableOpacity
@@ -52,6 +59,12 @@ const SelectionScreen = ({ navigation }) => {
           <Text style={styles.playerLabel}>PLAYER 2</Text>
 
           <View style={[styles.logoBox, { borderColor: visitorTeam.color }]}>
+            {/* LOGOTIPO VISITANTE */}
+            <Image 
+              source={visitorTeam.logo} 
+              style={styles.imageLogo} 
+              resizeMode="contain" 
+            />
             <Text style={[styles.teamName, { color: visitorTeam.color }]}>
               {visitorTeam.city.toUpperCase()}
             </Text>
@@ -61,7 +74,8 @@ const SelectionScreen = ({ navigation }) => {
           <FlatList
             data={visitorTeam.players}
             renderItem={renderPlayer}
-            keyExtractor={(item) => item}
+            keyExtractor={(item) => `visitor-${item}`}
+            style={styles.playerList}
           />
 
           <TouchableOpacity
@@ -74,11 +88,15 @@ const SelectionScreen = ({ navigation }) => {
       </View>
 
       <TouchableOpacity
-        style={styles.playBtn}
-        onPress={() => navigation.navigate('Game', { localTeam, visitorTeam })}
-      >
-        <Text style={styles.playText}>SPACE BAR TO CONTINUE</Text>
-      </TouchableOpacity>
+      style={styles.playBtn}
+      // Pasamos solo los índices, no los objetos con las fotos
+      onPress={() => navigation.navigate('Game', { 
+        localIndex: localIndex, 
+        visitorIndex: visitorIndex 
+      })}
+    >
+      <Text style={styles.playText}>SPACE BAR TO CONTINUE</Text>
+    </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -120,15 +138,26 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
     alignItems: 'center',
+    minHeight: 140, // Espacio suficiente para imagen y texto
+    justifyContent: 'center',
+  },
+  imageLogo: {
+    width: 60,
+    height: 60,
+    marginBottom: 8,
   },
   teamName: {
     fontSize: 14,
     fontFamily: 'monospace',
+    fontWeight: 'bold',
   },
   teamSub: {
     color: '#fff',
     fontFamily: 'monospace',
     fontSize: 12,
+  },
+  playerList: {
+    maxHeight: 150, // Limita la lista para que no empuje el botón de cambio fuera de pantalla
   },
   playerText: {
     color: '#fff',

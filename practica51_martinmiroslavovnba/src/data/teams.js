@@ -5,7 +5,8 @@ export const TEAMS = [
     city: 'Los Angeles',
     color: '#FDB927',
     secondaryColor: '#552583',
-    logo: '',
+    // Usamos require con la ruta relativa
+    logo: require('../../assets/logos/lakers.png'), 
     players: ['Magic Johnson', 'Byron Scott', 'James Worthy', 'Sam Perkins', 'Vlade Divac'],
   },
   {
@@ -14,7 +15,7 @@ export const TEAMS = [
     city: 'Chicago',
     color: '#CE1141',
     secondaryColor: '#000000',
-    logo: '',
+    logo: require('../../assets/logos/bulls.png'),
     players: ['B.J. Armstrong', 'Michael Jordan', 'Scottie Pippen', 'Horace Grant', 'Bill Cartwright'],
   },
   {
@@ -23,7 +24,7 @@ export const TEAMS = [
     city: 'Boston',
     color: '#007A33',
     secondaryColor: '#BA9653',
-    logo: '',
+    logo: require('../../assets/logos/celtics.png'),
     players: ['Dee Brown', 'Reggie Lewis', 'Larry Bird', 'Kevin McHale', 'Robert Parish'],
   },
 ];
